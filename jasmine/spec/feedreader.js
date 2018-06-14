@@ -84,6 +84,23 @@ $(function () {
             expect(body.hasClass('menu-hidden')).toBe(true);
         })
 
+        /* Test that ensure that the Handlebars
+         * template far menu items is parsed well
+         */
+        describe('items', function () {
+            it('should show the correct information', function () {
+                const item = {
+                    id: 1,
+                    name: 'A feed name for testing.'
+                }
+
+                const feedItemTemplate = Handlebars.compile($('.tpl-feed-list-item').html());
+                const text = feedItemTemplate(item);
+                console.log(text);
+                expect(text.includes('<a href="#" data-id="1">A feed name for testing.</a>')).toBe(true);
+            })
+        })
+
     })
 
     /* A test suite to test "Initial Entries" */
@@ -105,6 +122,21 @@ $(function () {
         it('shoul be an entry al least', function (done) {
             expect($('.feed .entry').length).toBeGreaterThan(0);
             done();
+        })
+
+        /* Test that ensure that the Handlebars
+         * template far entries is parsed well
+         */
+        it('should show the correct information', function () {
+            const feed = {
+                title: 'A title for testing',
+                link: 'http://udacity.com'
+            }
+            const entryTemplate = Handlebars.compile($('.tpl-entry').html());
+            const text = entryTemplate(feed);
+            console.log(text);
+            expect(text.includes('<a class="entry-link" href="http://udacity.com">')).toBe(true);
+            expect(text.includes('<h2>A title for testing</h2>')).toBe(true);
         })
     })
 
