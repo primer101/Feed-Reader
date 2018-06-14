@@ -60,7 +60,6 @@ $(function () {
     describe('The menu', function () {
         const body = $('body');
         const menu = $('.menu-icon-link');
-        const slide = $('.slide-menu');
 
         /* A test that ensures the menu element is
          * hidden by default. You'll have to analyze the HTML and
@@ -73,12 +72,16 @@ $(function () {
 
         /* A test that ensures the menu changes
          * visibility when the menu icon is clicked. This test
-         * should have two expectations: does the menu display when
+         * have two expectations: does the menu display when
          * clicked and does it hide when clicked again.
          */
         it('should toggle the visibility when clicked', function () {
             menu.trigger('click');
+            // should be visible
+            expect(body.hasClass('menu-hidden')).toBe(false);
             menu.trigger('click');
+            // should be hidden
+            expect(body.hasClass('menu-hidden')).toBe(true);
         })
 
     })
@@ -105,24 +108,41 @@ $(function () {
         })
     })
 
-    /* A test suite to test "New Feed Selection" */
+    /* A test that ensures when a new feed is loaded
+     * by the loadFeed function that the content actually changes.
+     */
     describe('New Feed Selection', function () {
-        var firstFeed;
-        /* A test that ensures when a new feed is loaded
-         * by the loadFeed function that the content actually changes.
-         * Remember, loadFeed() is asynchronous.
+        var hrefBefore,
+            hrefAfter;
+
+        /* First we call the loadFeed with the first source feed of the allFeeds array
+         * and save the URL of the first entry in the 'hrefBefore' variable.
+         * loadFeed() is asynchronous so this test will require
+         * the use of Jasmine's beforeEach and asynchronous done() function.
          */
         beforeEach(function (done) {
-            firstFeed = $('.feed');
-            //loadFeed(0, function () {
-            done();
-            //})
+            loadFeed(0, function () {
+                hrefBefore = $('.feed .entry-link').first().attr('href');
+                done();
+            })
         })
 
-        it('should change with the call of  loadFeed()', function (done) {
-            expect(firstFeed).not.toBe($('.feed'))
-            done();
+        /* Here we load a new feed calling loadFeed with the second source
+         * feed, grab the URL of the first entry in hrefAfter and we expect
+         * that it is different to hrefBefore, so thare is a new feed
+         */
+        it('should change with a new source feed', function (done) {
+            // loadFeed(0, function () { testing....
+            loadFeed(1, function () {
+                hrefAfter = $('.feed .entry-link').first().attr('href');
+                expect(hrefBefore).not.toEqual(hrefAfter);
+                done();
+            })
         })
 
+        // load the default feed after testing
+        afterEach(function () {
+            loadFeed(0);
+        })
     })
 }());

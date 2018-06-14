@@ -7,13 +7,13 @@
  */
 
 // The names and URLs to all of the feeds we'd like available.
-// var allFeeds = [];
+// var allFeeds = []; for testing
 var allFeeds = [{
     name: 'Udacity Blog',
     url: 'http://blog.udacity.com/feed'
 }, {
     name: 'CSS Tricks',
-    // url: ''
+    // url: '' for testing...
     // /*
     url: 'http://feeds.feedburner.com/CssTricks'
     // */
@@ -48,6 +48,7 @@ function loadFeed(id, cb) {
 
     $.ajax({
         type: "POST",
+        //url: 'https://rsstojson.udacity.com/parseFeedError', for testing
         url: 'https://rsstojson.udacity.com/parseFeed',
         data: JSON.stringify({
             url: feedUrl
