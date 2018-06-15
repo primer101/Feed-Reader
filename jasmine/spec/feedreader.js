@@ -87,8 +87,8 @@ $(function () {
         /* Test that ensure that the Handlebars
          * template far menu items is parsed well
          */
-        describe('items', function () {
-            it('should show the correct information', function () {
+        describe('items templates', function () {
+            it('should be parsed well', function () {
                 const item = {
                     id: 1,
                     name: 'A feed name for testing.'
@@ -119,7 +119,7 @@ $(function () {
          * function is called and completes its work, there is at least
          * a single .entry element within the .feed container.
          */
-        it('shoul be an entry al least', function (done) {
+        it('should be an entry at least', function (done) {
             expect($('.feed .entry').length).toBeGreaterThan(0);
             done();
         })
